@@ -90,10 +90,12 @@ public class MyCalculation {
 
     protected void beforeCalculation(){
         Log.d(TAG, "beforeCalculation is called");
-        if(currentDigit.contains("."))
+        if(currentDigit.contains(".")) {
             secondDoubleValue = Double.valueOf(currentDigit);
-        else
-            secondIntValue=Integer.valueOf(currentDigit);
+        }
+        else {
+            secondIntValue = Integer.valueOf(currentDigit);
+        }
 
         Log.d(TAG, "First value is "+firstIntValue);
         Log.d(TAG, "second value is "+secondIntValue);
@@ -105,6 +107,9 @@ public class MyCalculation {
                     firstIntValue = onEqualsPressed(firstIntValue, secondIntValue, operation);
                     firstDoubleValue=secondDoubleValue=secondIntValue=0;
                     Log.d(TAG, "First value is " + firstIntValue);
+                    Log.d(TAG, "firstDoubleValue is " + firstDoubleValue);
+                    Log.d(TAG, "secondDoubleValue is " + secondDoubleValue);
+                    Log.d(TAG, "secondIntValue is " + secondIntValue);
                     currentDigit = String.valueOf(firstIntValue);
                 }else{
                     firstDoubleValue = onEqualsPressed(firstIntValue, secondDoubleValue, operation);
