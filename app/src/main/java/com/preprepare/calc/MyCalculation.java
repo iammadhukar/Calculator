@@ -1,6 +1,8 @@
 package com.preprepare.calc;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 public class MyCalculation {
 
@@ -11,9 +13,11 @@ public class MyCalculation {
     private int firstIntValue,secondIntValue,noOfInput;
     private double firstDoubleValue, secondDoubleValue;
     private String operation="";
+    private Context context;
 
-    public MyCalculation(MainActivity mainActivity) {
+    public MyCalculation(MainActivity mainActivity, Context context) {
         this.mainActivity=mainActivity;
+        this.context = context;
     }
 
     protected void onDigitPressed(String digit){
@@ -53,10 +57,10 @@ public class MyCalculation {
                     noOfInput = 1;
                 }
                 else if(noOfInput==1) {
-                    if(currentDigit.contains("."))
-                        secondDoubleValue = Double.valueOf(currentDigit);
-                    else
-                        secondIntValue=Integer.valueOf(currentDigit);
+//                    if(currentDigit.contains("."))
+//                        secondDoubleValue = Double.valueOf(currentDigit);
+//                    else
+//                        secondIntValue=Integer.valueOf(currentDigit);
 
                 }
                 currentDigit="";
@@ -85,6 +89,61 @@ public class MyCalculation {
                 mainActivity.textView.setText(currentDigit);
                 operation=action;
 
+                break;
+
+            case "multiply" :
+                if (noOfInput==0) {
+                    if(currentDigit.contains("."))
+                        firstDoubleValue = Double.valueOf(currentDigit);
+                    else
+                        firstIntValue=Integer.valueOf(currentDigit);
+                    //firstValue = Double.valueOf(currentDigit);
+                    noOfInput = 1;
+                }
+
+                currentDigit="";
+                Log.d(TAG, "Currentdigit is: " + currentDigit);
+                mainActivity.textView.setText(currentDigit);
+                operation=action;
+
+                break;
+
+            case "divide" :
+                if (noOfInput==0) {
+                    if(currentDigit.contains("."))
+                        firstDoubleValue = Double.valueOf(currentDigit);
+                    else
+                        firstIntValue=Integer.valueOf(currentDigit);
+                    //firstValue = Double.valueOf(currentDigit);
+                    noOfInput = 1;
+                }
+
+                currentDigit="";
+                Log.d(TAG, "Currentdigit is: " + currentDigit);
+                mainActivity.textView.setText(currentDigit);
+                operation=action;
+
+                break;
+
+            case "percent" :
+                if (noOfInput==0) {
+                    Toast.makeText(context, "Please enter the digit first", Toast.LENGTH_LONG).show();
+//                    if(currentDigit.contains("."))
+//                        firstDoubleValue = Double.valueOf(currentDigit);
+//                    else
+//                        firstIntValue=Integer.valueOf(currentDigit);
+//                    //firstValue = Double.valueOf(currentDigit);
+//                    noOfInput = 1;
+                }else{
+                    secondDoubleValue = Double.valueOf(currentDigit)/100.0;
+                }
+
+                currentDigit=String.valueOf(secondDoubleValue);
+                Log.d(TAG, "Currentdigit is: " + currentDigit);
+                mainActivity.textView.setText(currentDigit);
+                //operation=action;
+
+                break;
         }
     }
 
@@ -102,37 +161,64 @@ public class MyCalculation {
         Log.d(TAG, "second d value is "+secondDoubleValue);
 
         if(operation!="") {
-            if (firstIntValue!=0) {
-                if (secondIntValue!=0) {
-                    firstIntValue = onEqualsPressed(firstIntValue, secondIntValue, operation);
-                    firstDoubleValue=secondDoubleValue=secondIntValue=0;
-                    Log.d(TAG, "First value is " + firstIntValue);
-                    Log.d(TAG, "firstDoubleValue is " + firstDoubleValue);
-                    Log.d(TAG, "secondDoubleValue is " + secondDoubleValue);
-                    Log.d(TAG, "secondIntValue is " + secondIntValue);
-                    currentDigit = String.valueOf(firstIntValue);
-                }else{
-                    firstDoubleValue = onEqualsPressed(firstIntValue, secondDoubleValue, operation);
-                    firstIntValue=0;
-                    secondDoubleValue=secondIntValue=0;
-                    Log.d(TAG, "First value is " + firstDoubleValue);
-                    currentDigit = String.valueOf(firstDoubleValue);
+                if (firstIntValue != 0) {
+                    if (secondIntValue != 0) {
+                        if (operation=="divide"){
+                            firstDoubleValue = divide(firstIntValue, secondIntValue);
+                            firstIntValue=secondIntValue=0;
+                            secondDoubleValue=0;
+                            currentDigit = String.valueOf(firstDoubleValue);
+                        }else {
+                            firstIntValue = onEqualsPressed(firstIntValue, secondIntValue, operation);
+                            firstDoubleValue = secondDoubleValue = secondIntValue = 0;
+                            Log.d(TAG, "First value is " + firstIntValue);
+                            Log.d(TAG, "firstDoubleValue is " + firstDoubleValue);
+                            Log.d(TAG, "secondDoubleValue is " + secondDoubleValue);
+                            Log.d(TAG, "secondIntValue is " + secondIntValue);
+                            currentDigit = String.valueOf(firstIntValue);
+                        }
+                    } else {
+                        if (operation=="divide"){
+                            firstDoubleValue=divide(firstIntValue, secondDoubleValue);
+                            firstIntValue=secondIntValue=0;
+                            secondDoubleValue=0;
+                            currentDigit = String.valueOf(firstDoubleValue);
+                        }else {
+                            firstDoubleValue = onEqualsPressed(firstIntValue, secondDoubleValue, operation);
+                            firstIntValue = 0;
+                            secondDoubleValue = secondIntValue = 0;
+                            Log.d(TAG, "First value is " + firstDoubleValue);
+                            currentDigit = String.valueOf(firstDoubleValue);
+                        }
 
+                    }
+                } else {
+                    if (secondIntValue != 0) {
+                        if (operation=="divide"){
+                            firstDoubleValue=divide(firstDoubleValue, secondIntValue);
+                            firstIntValue=secondIntValue=0;
+                            secondDoubleValue=0;
+                            currentDigit = String.valueOf(firstDoubleValue);
+                        }else {
+                            firstDoubleValue = onEqualsPressed(firstDoubleValue, secondIntValue, operation);
+                            firstIntValue = 0;
+                            secondDoubleValue = secondIntValue = 0;
+                            currentDigit = String.valueOf(firstDoubleValue);
+                        }
+                    } else {
+                        if (operation=="divide") {
+                            firstDoubleValue = divide(firstDoubleValue, secondDoubleValue);
+                            firstIntValue=secondIntValue=0;
+                            secondDoubleValue=0;
+                            currentDigit = String.valueOf(firstDoubleValue);
+                        }else {
+                            firstDoubleValue = onEqualsPressed(firstDoubleValue, secondDoubleValue, operation);
+                            firstIntValue = 0;
+                            secondDoubleValue = secondIntValue = 0;
+                            currentDigit = String.valueOf(firstDoubleValue);
+                        }
+                    }
                 }
-            }
-            else {
-                if (secondIntValue!=0){
-                    firstDoubleValue = onEqualsPressed(firstDoubleValue, secondIntValue, operation);
-                    firstIntValue=0;
-                    secondDoubleValue=secondIntValue=0;
-                    currentDigit = String.valueOf(firstDoubleValue);
-                }else {
-                    firstDoubleValue = onEqualsPressed(firstDoubleValue, secondDoubleValue, operation);
-                    firstIntValue=0;
-                    secondDoubleValue=secondIntValue=0;
-                    currentDigit = String.valueOf(firstDoubleValue);
-                }
-            }
         }
         mainActivity.textView.setText(currentDigit);
     }
@@ -159,6 +245,9 @@ public class MyCalculation {
             case "multiply" :
                 value = multiply(firstNumber, secondNumber);
                 break;
+
+            case "percent" :
+
         }
         return value;
     }
@@ -181,7 +270,7 @@ public class MyCalculation {
                     mainActivity.textView.setText("Error");
                 break;
             case "multiply" :
-                //value = multiply(firstNumber, secondNumber);
+                value = multiply(firstNumber, secondNumber);
                 break;
         }
         return value;
@@ -194,6 +283,7 @@ public class MyCalculation {
     private double sum(double firstNumber, int secondNumber){
         return firstNumber+secondNumber;
     }
+
     private double sum(int firstNumber, double secondNumber){
         return firstNumber+secondNumber;
     }
@@ -211,18 +301,26 @@ public class MyCalculation {
     }
 
     private double divide(double firstNumber, double secondNumber){
-        if (secondNumber!=0){
-            return firstNumber/secondNumber;
-        }else
-            return 0.01101100322;
+        double value=0;
+        try{
+            value = firstNumber/secondNumber;
+        }catch (ArithmeticException e){
+            currentDigit="Error";
+        }
+
+//        if (secondNumber!=0){
+//            return firstNumber/secondNumber;
+//        }else
+//            return 0.01101100322;
+        return value;
     }
 
-    private double divide(int firstNumber, int secondNumber){
-        if (secondNumber!=0){
-            return firstNumber/secondNumber;
-        }else
-            return 0.01101100322;
-    }
+//    private double divide(int firstNumber, int secondNumber){
+//        if (secondNumber!=0){
+//            return firstNumber/secondNumber;
+//        }else
+//            return 0.01101100322;
+//    }
 
     private double multiply(double firstNumber, double secondNumber){
         return firstNumber*secondNumber;

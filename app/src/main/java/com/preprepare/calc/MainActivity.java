@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        myClaculation = new MyCalculation(MainActivity.this);
+        myClaculation = new MyCalculation(MainActivity.this, this);
 
         Log.d(TAG,"Inside mainActivity");
 
@@ -169,41 +169,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.multiply :
-                if (noOfInput==0) {
-                    firstValue = Double.valueOf(currentDigit);
-                    noOfInput = 1;
-                    Log.d(TAG, "First value is "+firstValue);
-                }
-                else if(noOfInput==1) {
-                    secondValue = Double.valueOf(currentDigit);
-                    Log.d(TAG, "Second value is "+secondValue);
-                    //noOfInput = 0;
-                }
-                textView.setText(currentDigit);
-                operation = "multiply";
-                action = "multiply";
+                Log.d(TAG,"Multiply is pressed");
+
+                myClaculation.calculation("multiply");
+
+//                if (noOfInput==0) {
+//                    firstValue = Double.valueOf(currentDigit);
+//                    noOfInput = 1;
+//                    Log.d(TAG, "First value is "+firstValue);
+//                }
+//                else if(noOfInput==1) {
+//                    secondValue = Double.valueOf(currentDigit);
+//                    Log.d(TAG, "Second value is "+secondValue);
+//                    //noOfInput = 0;
+//                }
+//                textView.setText(currentDigit);
+//                operation = "multiply";
+//                action = "multiply";
                 break;
 
             case R.id.divide :
-                if (noOfInput==0) {
-                    firstValue = Double.valueOf(currentDigit);
-                    noOfInput = 1;
-                    Log.d(TAG, "First value is "+firstValue);
-                }
-                else if(noOfInput==1) {
-                    secondValue = Double.valueOf(currentDigit);
-                    Log.d(TAG, "Second value is "+secondValue);
-                    //noOfInput = 0;
-                }
-                textView.setText(currentDigit);
-                operation = "divide";
-                action = "divide";
+
+                Log.d(TAG,"Divide is pressed");
+
+                myClaculation.calculation("divide");
+
+//                if (noOfInput==0) {
+//                    firstValue = Double.valueOf(currentDigit);
+//                    noOfInput = 1;
+//                    Log.d(TAG, "First value is "+firstValue);
+//                }
+//                else if(noOfInput==1) {
+//                    secondValue = Double.valueOf(currentDigit);
+//                    Log.d(TAG, "Second value is "+secondValue);
+//                    //noOfInput = 0;
+//                }
+//                textView.setText(currentDigit);
+//                operation = "divide";
+//                action = "divide";
                 break;
 
             case R.id.percent :
-                currentDigit = String.valueOf(Double.valueOf(currentDigit)/100.0);
-                Log.d(TAG, "Second value is "+secondValue);
-                textView.setText(String.valueOf(secondValue));
+                Log.d(TAG,"Divide is pressed");
+
+                myClaculation.calculation("percent");
+
+//                currentDigit = String.valueOf(Double.valueOf(currentDigit)/100.0);
+//                Log.d(TAG, "Second value is "+secondValue);
+//                textView.setText(String.valueOf(secondValue));
                 break;
 
             case R.id.equals :
