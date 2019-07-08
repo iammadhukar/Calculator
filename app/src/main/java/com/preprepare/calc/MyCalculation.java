@@ -28,7 +28,9 @@ public class MyCalculation {
 
     protected void onCLetterPressed(){
         currentDigit=currentDigit.substring(0,currentDigit.length()-1);
+        Log.d(TAG, "Value of current digit is : "+currentDigit);
         mainActivity.textView.setText(currentDigit);
+        noOfInput=0;
     }
 
     protected void onACLetterPressed(){
